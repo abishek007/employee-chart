@@ -11,9 +11,13 @@
 - Used **SASS** a CSS preprocessor for styling, which makes our code clean & readable.
 - when we modifying the employee hierarchy chart using drag & drop, a **POST API** call will be made to update the data.
 
-## Demo
+## Live Demo
 
 This project hosted on vercel platform.[Demo Link](https://employee-chart.vercel.app/)
+
+## Video Recording
+
+Craeded a simple video recording and explained the features.[Video Link](https://www.youtube.com/watch?v=Xokoc-Rjs7Y)
 
 ## Installation
 
