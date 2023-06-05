@@ -57,7 +57,6 @@ export const getFormattedEmpList = (employeeData) => {
  * @param {Array<Object>} employeeData
  */
 export const updateEmpList = (employeeData) => {
-  console.log("employeeData 1111", employeeData);
   function updateManagerInfo(id, name, employeeList) {
     employeeList?.forEach((employee) => {
       if (Array.isArray(employee.children) && employee.children?.length) {
@@ -72,5 +71,4 @@ export const updateEmpList = (employeeData) => {
   }
   const { id, name, children } = employeeData;
   updateManagerInfo(id, name, children);
-  console.log("employeeData 2222", employeeData);
 };
