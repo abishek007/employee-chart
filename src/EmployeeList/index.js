@@ -9,11 +9,17 @@ import Shimmer from "../Card/Shimmer";
 // Helper Imports
 import { filterEmployeeList, getFormattedEmpList } from "../Helpers/helpers";
 
-const EmployeeList = ({ isLoading, empList }) => {
+const EmployeeList = ({
+  isLoading,
+  empList,
+  defaultEmpList,
+  setEmpList,
+  selectedTeam,
+  setSelectedTeam,
+}) => {
   const [initialEmpList, setInitialEmpList] = useState([]);
   const [cardList, setCardList] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedTeam, setSelectedTeam] = useState([]);
 
   const teamList = useMemo(() => {
     const teams = [];
@@ -44,12 +50,22 @@ const EmployeeList = ({ isLoading, empList }) => {
   };
 
   useEffect(() => {
-    setCardList(filterEmployeeList(initialEmpList, searchText, selectedTeam));
+    const { filteredData, updatedHierarchyData } = filterEmployeeList(
+      initialEmpList,
+      searchText,
+      selectedTeam,
+      defaultEmpList
+    );
+    setCardList(filteredData);
+    selectedTeam.length
+      ? setEmpList(updatedHierarchyData)
+      : setEmpList(defaultEmpList);
   }, [searchText, selectedTeam]);
 
   useEffect(() => {
+    const formattedInitialEmpList = getFormattedEmpList(defaultEmpList);
     const formattedEmpList = getFormattedEmpList(empList);
-    setInitialEmpList(formattedEmpList);
+    setInitialEmpList(formattedInitialEmpList);
     setCardList(formattedEmpList);
   }, [empList]);
 

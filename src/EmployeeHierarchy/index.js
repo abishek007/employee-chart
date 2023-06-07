@@ -2,12 +2,21 @@
 import HierarchyTree from "./HierarchyTree";
 import SpinLoader from "./SpinLoader";
 
-const EmployeeHierarchy = ({ isLoading, empList, getEmployeeData }) => (
+const EmployeeHierarchy = ({
+  isLoading,
+  empList,
+  getEmployeeData,
+  selectedTeam,
+}) => (
   <>
     {isLoading ? (
       <SpinLoader />
     ) : (
-      <HierarchyTree empList={empList} getEmployeeData={getEmployeeData} />
+      <HierarchyTree
+        empList={empList}
+        getEmployeeData={getEmployeeData}
+        selectedTeam={selectedTeam}
+      />
     )}
   </>
 );

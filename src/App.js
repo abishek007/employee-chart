@@ -16,13 +16,16 @@ import "./App.scss";
 
 const App = () => {
   const [empList, setEmpList] = useState({});
+  const [defaultEmpList, setDefaultEmpList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState([]);
 
   const getEmployeeData = async () => {
     setIsLoading(true);
     const response = await fetch(API_ROTES.GET_EMPLOYEE);
     const employeeList = await response.json();
     updateEmpList(employeeList);
+    setDefaultEmpList(employeeList);
     setEmpList(employeeList);
     setIsLoading(false);
   };
@@ -34,7 +37,15 @@ const App = () => {
   return (
     <div className="container">
       <div className="left-section">
-        <EmployeeList isLoading={isLoading} empList={empList} />
+        <EmployeeList
+          isLoading={isLoading}
+          empList={empList}
+          defaultEmpList={defaultEmpList}
+          setEmpList={setEmpList}
+          selectedTeam={selectedTeam}
+          setSelectedTeam={setSelectedTeam}
+          setIsLoading={setIsLoading}
+        />
       </div>
       <div className="right-section">
         <p className="section-title">Organisation Chart for ABC Co.</p>
@@ -42,6 +53,7 @@ const App = () => {
           <EmployeeHierarchy
             isLoading={isLoading}
             empList={empList}
+            selectedTeam={selectedTeam}
             getEmployeeData={getEmployeeData}
           />
         </div>

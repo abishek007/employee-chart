@@ -9,7 +9,8 @@
 export const filterEmployeeList = (
   initialEmpList,
   searchText,
-  selectedTeam = []
+  selectedTeam = [],
+  defaultEmpList
 ) => {
   let filteredData = initialEmpList.filter((data) => {
     return Object.values(data)
@@ -17,11 +18,20 @@ export const filterEmployeeList = (
       .toLowerCase()
       .includes(searchText.toLowerCase());
   });
+  const updatedHierarchyData = JSON.parse(JSON.stringify(defaultEmpList));
+
   if (selectedTeam.length) {
     const teamList = selectedTeam.map((team) => team.value);
     filteredData = filteredData.filter((data) => teamList.includes(data.team));
+
+    updatedHierarchyData?.children.forEach((data, ind) => {
+      if (!teamList.includes(data.team)) {
+        delete updatedHierarchyData.children[ind];
+      }
+    });
   }
-  return filteredData;
+
+  return { filteredData, updatedHierarchyData };
 };
 
 /**
@@ -57,18 +67,19 @@ export const getFormattedEmpList = (employeeData) => {
  * @param {Array<Object>} employeeData
  */
 export const updateEmpList = (employeeData) => {
-  function updateManagerInfo(id, name, employeeList) {
+  function updateManagerInfo(id, name, employeeList, team) {
     employeeList?.forEach((employee) => {
       if (Array.isArray(employee.children) && employee.children?.length) {
-        const { id, name, children } = employee;
-        updateManagerInfo(id, name, children);
+        const { id, name, children, team } = employee;
+        updateManagerInfo(id, name, children, team);
       } else {
         employee.manager_id = id;
         employee.manager_name = name;
+        employee.team = team;
       }
     });
     return;
   }
-  const { id, name, children } = employeeData;
-  updateManagerInfo(id, name, children);
+  const { id, name, children, team } = employeeData;
+  updateManagerInfo(id, name, children, team);
 };
